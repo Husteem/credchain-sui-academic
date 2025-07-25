@@ -16,6 +16,7 @@ export function IssuerPortal({ onBack, walletAddress }: IssuerPortalProps) {
   const [recipientAddress, setRecipientAddress] = useState('');
   const [courseName, setCourseName] = useState('');
   const [metadata, setMetadata] = useState('');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [issuingCredential, setIssuingCredential] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(true); // Simulate authorization check
   const { toast } = useToast();
@@ -37,6 +38,7 @@ export function IssuerPortal({ onBack, walletAddress }: IssuerPortalProps) {
       setRecipientAddress('');
       setCourseName('');
       setMetadata('');
+      setSelectedFile(null);
     } catch (error) {
       toast({
         title: "Issuance Failed", 
@@ -170,8 +172,25 @@ export function IssuerPortal({ onBack, walletAddress }: IssuerPortalProps) {
                 <p className="text-sm text-muted-foreground">
                   Upload certificate or transcript (Optional)
                 </p>
-                <Button variant="outline" size="sm" className="mt-2">
-                  Choose File
+                {selectedFile && (
+                  <p className="text-xs text-muted-foreground mt-1 font-medium">
+                    {selectedFile.name}
+                  </p>
+                )}
+                <input
+                  type="file"
+                  id="file-upload"
+                  className="hidden"
+                  accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                  onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+                />
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="mt-2"
+                  onClick={() => document.getElementById('file-upload')?.click()}
+                >
+                  {selectedFile ? 'Change File' : 'Choose File'}
                 </Button>
               </div>
               
