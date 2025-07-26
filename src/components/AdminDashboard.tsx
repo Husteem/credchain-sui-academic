@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -6,19 +6,32 @@ import { Label } from '@/components/ui/label';
 import { ArrowLeft, Shield, Plus, Users, CheckCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
+import { useCurrentAccount } from '@mysten/dapp-kit';
+
 interface AdminDashboardProps {
   onBack: () => void;
   walletAddress: string;
 }
 
 export function AdminDashboard({ onBack, walletAddress }: AdminDashboardProps) {
+
   const [newIssuerAddress, setNewIssuerAddress] = useState('');
   const [isAddingIssuer, setIsAddingIssuer] = useState(false);
   const [authorizedIssuers, setAuthorizedIssuers] = useState([
     '0x1234567890abcdef1234567890abcdef12345678',
     '0xabcdef1234567890abcdef1234567890abcdef12'
   ]);
+  const [userWalletAddress, setUserWalletAddress] = useState<string | null>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (walletAddress) {
+      // Connection successful
+      console.log('Wallet connected:', walletAddress);
+      setUserWalletAddress(walletAddress);
+    }
+  
+  }, [walletAddress]);
 
   const handleAddIssuer = async () => {
     if (!newIssuerAddress) return;
@@ -73,7 +86,7 @@ export function AdminDashboard({ onBack, walletAddress }: AdminDashboardProps) {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Connected Wallet</p>
-                <p className="font-mono text-sm">{walletAddress}</p>
+                <p className="font-mono text-sm">{userWalletAddress}</p>
               </div>
               <div className="flex items-center gap-2 text-green-600">
                 <CheckCircle className="w-4 h-4" />
