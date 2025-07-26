@@ -3,6 +3,9 @@ import { Card } from '@/components/ui/card';
 import { GraduationCap, Shield, Users, FileCheck } from 'lucide-react';
 import heroImage from '@/assets/hero-blockchain-education.jpg';
 
+import { ConnectButton } from '@mysten/dapp-kit';
+
+
 interface NavigationProps {
   onSelectRole: (role: 'admin' | 'issuer' | 'student' | 'verifier') => void;
 }
