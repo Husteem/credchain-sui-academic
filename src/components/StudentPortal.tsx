@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ArrowLeft, Users, Share2, QrCode, ExternalLink, Award, Calendar } from 'lucide-react';
@@ -20,7 +20,10 @@ interface Credential {
 
 export function StudentPortal({ onBack, walletAddress }: StudentPortalProps) {
   const [selectedCredential, setSelectedCredential] = useState<Credential | null>(null);
+  const [userWalletAddress, setUserWalletAddress] = useState<string | null>(null);
+
   const { toast } = useToast();
+
 
   const credentials: Credential[] = [
     {
@@ -48,6 +51,15 @@ export function StudentPortal({ onBack, walletAddress }: StudentPortalProps) {
       status: 'active'
     }
   ];
+
+
+  useEffect(() => {
+    if (walletAddress) {
+      // Connection successful
+      console.log('Wallet connected:', walletAddress);
+      setUserWalletAddress(walletAddress);
+    }
+  }, [walletAddress]);
 
   const handleShareCredential = (credential: Credential) => {
     const shareUrl = `${window.location.origin}/verify?id=${credential.id}`;
