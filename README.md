@@ -1,73 +1,115 @@
-# Welcome to your Lovable project
+# CredChain 
 
-## Project info
+**A decentralized academic credentialing system built on the Sui blockchain.**
 
-**URL**: https://lovable.dev/projects/4493b8a4-af9c-4ffa-b17f-5d77607914a6
+---
 
-## How can I edit this code?
+##  Overview
 
-There are several ways of editing your application.
+CredChain enables educational institutions, bootcamps, NGOs, and training providers to issue **tamper-proof academic credentials** directly on the blockchain. Built entirely on the **Sui blockchain** using **Move smart contracts** and a **React frontend**, CredChain empowers students to **own**, **verify**, and **share** their academic achievements without relying on paper documents or institutional bureaucracy.
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/4493b8a4-af9c-4ffa-b17f-5d77607914a6) and start prompting.
+##  Features
 
-Changes made via Lovable will be committed automatically to this repo.
+-  **Role-Based Access Control**  
+  - Admins authorize new issuers using `add_issuer()`
+  - Issuers can issue credentials only if whitelisted
+-  **Credential Issuance**  
+  - On-chain Move object: `recipient`, `issuer`, `course`, `issued_at`, `metadata_url`, `is_revoked`
+-  **Student Portal**  
+  - View all owned credentials
+  - See details including course name, issuer, and status
+-  **Verifier Interface**  
+  - Enter shared credential ID to confirm authenticity (frontend-only QR and link-based logic for now)
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🔧 Tech Stack
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+| Layer | Stack |
+|-------|-------|
+| **Blockchain** | [Sui Blockchain](https://sui.io) |
+| **Smart Contract Language** | Move |
+| **Frontend Framework** | React (Vite) + Tailwind CSS |
+| **Wallet Integration** | Slush |
+| **State Management** | React Context |
+| **Data Storage** | Sui On-Chain Object Model (Move) |
+| **QR/Link Share** | Frontend-only preview & selective display |
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🔍 Contract Design
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+**Credential Object:**
+```move
+struct Credential {
+    recipient: address,
+    issuer: address,
+    course: string,
+    issued_at: u64,
+    metadata_url: string,
+    is_revoked: bool
+}
 ```
+Key Functions:
 
-**Edit a file directly in GitHub**
+add_issuer() → Admin-only function to authorize credential issuers
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+issue_credential() → Issuers use this to create on-chain credential objects
 
-**Use GitHub Codespaces**
+verify_credential() → Utility call to confirm credential info
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+ How It Works
+Admin connects Sui wallet and whitelists issuers
 
-## What technologies are used for this project?
+Issuer connects and issues credentials to recipient addresses
 
-This project is built with:
+Student logs in and views owned credentials
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Verifier accesses the shared credential ID through a link or QR code - frontend
 
-## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/4493b8a4-af9c-4ffa-b17f-5d77607914a6) and click on Share -> Publish.
+Roadmap
+| Feature                                       | Status        |
+| --------------------------------------------- | ------------- |
+| IPFS metadata integration (via Tusk + Walrus) |  Planned     |
+| On-chain QR and verifiable links              |  Planned     |
+| Credential revocation mechanism               |  Implemented |
+| UI/UX polishing for mobile                    |  Done        |
+| Multi-role frontend SPA                       |  Done        |
 
-## Can I connect a custom domain to my Lovable project?
 
-Yes, you can!
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+ Local Development
+ Requirements
+Node.js v18+
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Sui CLI (sui installed and configured)
+
+Git
+
+ Setup
+# Clone the repo
+git clone https://github.com/Husteem/credchain-sui-academic.git
+cd credchain-sui-academic
+
+# Install frontend dependencies
+npm install
+
+# Start the dev server
+npm run dev
+
+TEAM
+Main
+Naim Hussain – muhdnaimhussain@gmail.com
+Muhammad Hamza – hamza.00dev1@gmail.com
+
+Contributors
+Hafiz Hussain – hafizhussain938@gmail.com
+Aliyu Muhammad Sani – aleeyumuhd4ever2020@gmail.com
+Sulaiman mazeedah - mazeedahogere@gmail.com
+
+ License
+MIT License. Free to use, fork, and extend — but credit the original authors.
+
