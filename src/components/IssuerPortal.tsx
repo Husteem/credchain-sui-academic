@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -19,8 +19,18 @@ export function IssuerPortal({ onBack, walletAddress }: IssuerPortalProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [issuingCredential, setIssuingCredential] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(true); // Simulate authorization check
+  const [userWalletAddress, setUserWalletAddress] = useState<string | null>(null);
+
   const { toast } = useToast();
 
+  useEffect(() => {
+    if (walletAddress) {
+       // Connection successful
+      console.log('Wallet connected:', walletAddress);
+      setUserWalletAddress(walletAddress);
+    }
+    
+    }, [walletAddress]);
   const handleIssueCredential = async () => {
     if (!recipientAddress || !courseName) return;
     
