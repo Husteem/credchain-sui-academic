@@ -109,6 +109,7 @@ Muhammad Hamza – hamza.00dev1@gmail.com
 Contributors
 Hafiz Hussain – hafizhussain938@gmail.com
 Aliyu Muhammad Sani – aleeyumuhd4ever2020@gmail.com
+Sulaiman mazeedah - mazeedahogere@gmail.com
 
  License
 MIT License. Free to use, fork, and extend — but credit the original authors.
