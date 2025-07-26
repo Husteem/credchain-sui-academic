@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Wallet, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
+
+import { ConnectButton, useCurrentAccount } from '@mysten/dapp-kit';
+
 
 interface WalletConnectionProps {
   onBack: () => void;
@@ -11,9 +15,36 @@ interface WalletConnectionProps {
 }
 
 export function WalletConnection({ onBack, onConnect, role }: WalletConnectionProps) {
+  
+  const account = useCurrentAccount();
+  const navigate = useNavigate();
+
+   useEffect(() => {
+    if (account) {
+      // Connection successful
+      console.log('Wallet connected:', account.address);
+      // Place your logic here (e.g., fetch user data, show a toast, etc.)
+      onConnect(account.address);
+      toast({
+        title: "Wallet Connected",
+        description: `Successfully connected to wallet: ${account.address}`,
+      })
+    } else {
+      // Disconnected or not connected
+      console.log('Wallet not connected');
+      navigate('/'); // Redirect to home if not connected
+      toast({
+        title: "Wallet Disconnected",
+        description: "You are not connected to any wallet. Please connect to continue.",
+        variant: "destructive" 
+      });
+    }
+  }, [account]);
+
+
   const [isConnecting, setIsConnecting] = useState(false);
   const { toast } = useToast();
-
+  const [connectedWallet, setConnectedWallet] = useState<string | null>(null);
   const handleConnect = async () => {
     setIsConnecting(true);
     try {
@@ -94,7 +125,10 @@ export function WalletConnection({ onBack, onConnect, role }: WalletConnectionPr
               >
                 {isConnecting ? 'Connecting...' : 'Connect Sui Wallet'}
               </Button>
-
+              <ConnectButton
+                color="primary"
+                size="lg" 
+                className="w-full" />
               <div className="text-xs text-muted-foreground">
                 Make sure you have a Sui wallet installed and set to the correct network
               </div>
