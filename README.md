@@ -51,7 +51,7 @@ struct Credential {
     metadata_url: string,
     is_revoked: bool
 }
-
+```
 Key Functions:
 
 add_issuer() → Admin-only function to authorize credential issuers
@@ -68,7 +68,6 @@ Issuer connects and issues credentials to recipient addresses
 Student logs in and views owned credentials
 
 Verifier accesses the shared credential ID through a link or QR code - frontend
-
 
 
 Roadmap
