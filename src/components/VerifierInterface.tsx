@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -29,6 +29,16 @@ export function VerifierInterface({ onBack, walletAddress }: VerifierInterfacePr
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationResult, setVerificationResult] = useState<VerificationResult | null>(null);
   const { toast } = useToast();
+  const [userWalletAddress, setUserWalletAddress] = useState<string | null>(null);
+  
+
+  useEffect(() => {
+    if (walletAddress) {
+      // Connection successful
+      console.log('Wallet connected:', walletAddress);
+      setUserWalletAddress(walletAddress);
+      }
+    }, [walletAddress]);
 
   const handleVerify = async () => {
     if (!credentialId) return;
